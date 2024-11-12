@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}View Results{% endblock %}
+
+{% block content %}
+<h1>Your Results</h1>
+<ul class="list-group">
+    {% for result in results %}
+        <li class="list-group-item">
+            {{ result.exam.title }}: <strong>{{ result.score }}</strong>
+        </li>
+    {% empty %}
+        <li class="list-group-item">No results available.</li>
+    {% endfor %}
+</ul>
+<a href="{% url 'home' %}" class="btn btn-secondary mt-3">Back to Home</a>
+{% endblock %}

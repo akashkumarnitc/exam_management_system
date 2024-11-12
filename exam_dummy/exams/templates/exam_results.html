@@ -1,0 +1,10 @@
+<!-- your_app/templates/your_app/exam_results.html -->
+{% extends 'base.html' %}
+
+{% block title %}Exam Results{% endblock %}
+
+{% block content %}
+<h1>Exam Results</h1>
+<p>Exam Title: {{ exam.title }}</p>
+<p>Your Score: {{ result.score }} out of {{ result.total_questions }}</p>
+{% endblock %}

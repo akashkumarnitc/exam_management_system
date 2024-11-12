@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Teacher Dashboard{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1>Teacher Dashboard</h1>
+    <p>Welcome, {{ request.user.username }}!</p>
+    
+    <h2>Your Exams</h2>
+    {% if exams %}
+        <ul class="list-group">
+            {% for exam in exams %}
+                <li class="list-group-item">
+                    <strong>{{ exam.title }}</strong> - {{ exam.date|date:"F j, Y, g:i a" }}
+                    <a href="{% url 'edit_exam' exam.id %}" class="btn btn-sm btn-secondary float-right ml-2">Edit</a>
+                    <a href="{% url 'delete_exam' exam.id %}" class="btn btn-sm btn-danger float-right">Delete</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No exams created yet.</p>
+    {% endif %}
+    
+    <div class="mt-4">
+        <a href="{% url 'create_exam' %}" class="btn btn-primary">Create New Exam</a>
+    </div>
+</div>
+{% endblock %}

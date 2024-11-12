@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Student Dashboard{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Student Dashboard</h1>
+    <p class="text-center">Welcome, {{ request.user.username }}!</p>
+
+    <!-- Available Exams Section -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h2 class="h5 mb-0">Available Exams</h2>
+        </div>
+        <div class="card-body">
+            {% if available_exams %}
+                <ul class="list-group">
+                    {% for exam in available_exams %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>
+                                <strong>{{ exam.title }}</strong> - {{ exam.date|date:"F j, Y, g:i a" }}
+                            </span>
+                            <a href="{% url 'start_exam' exam.id %}" class="btn btn-sm btn-primary">Take Exam</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="text-center">No exams available at the moment.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Previous Exams Section -->
+    <div class="card mt-4">
+        <div class="card-header">
+            <h2 class="h5 mb-0">Your Previous Exams</h2>
+        </div>
+        <div class="card-body">
+            {% if previous_exams %}
+                <ul class="list-group">
+                    {% for result in previous_exams %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>
+                                <strong>{{ result.exam.title }}</strong> - {{ result.score }} points
+                            </span>
+                            <a href="{% url 'view_results' %}?exam_id={{ result.exam.id }}" class="btn btn-sm btn-secondary">View Results</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="text-center">No previous exams found.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

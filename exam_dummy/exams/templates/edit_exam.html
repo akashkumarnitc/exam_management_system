@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Exam{% endblock %}
+
+{% block content %}
+<h1>Edit Exam</h1>
+
+<!-- Exam Edit Form -->
+<form method="post">
+    {% csrf_token %}
+    <div class="form-group">
+        {{ form.as_p }}
+    </div>
+    <button type="submit" class="btn btn-primary">Save Exam Changes</button>
+</form>
+
+<!-- Back to Exams Button -->
+<a href="{% url 'view_exams' %}" class="btn btn-secondary mt-3">Back to Exams</a>
+
+<hr>
+
+<!-- Questions Section -->
+<h2>Edit Questions</h2>
+{% if exam.questions.exists %}
+    {% for question in exam.questions.all %}
+        <div class="card mt-4">
+            <div class="card-body">
+                <h5 class="card-title">Question {{ forloop.counter }}</h5>
+                <p class="card-text"><strong>Question Text:</strong> {{ question.question_text }}</p>
+                <p class="card-text"><strong>Marks:</strong> {{ question.marks }}</p>
+
+                <!-- Form for editing each question -->
+                <form action="{% url 'edit_question' question.id %}" method="post">
+                    {% csrf_token %}
+                    {{ question_form.as_p }}
+                    <button type="submit" class="btn btn-success">Save Question Changes</button>
+                </form>
+            </div>
+        </div>
+    {% endfor %}
+{% else %}
+    <p>No questions have been added to this exam yet.</p>
+{% endif %}
+
+<!-- Button to Add New Question -->
+<a href="{% url 'add_question' exam.id %}" class="btn btn-primary mt-4">Add New Question</a>
+{% endblock %}

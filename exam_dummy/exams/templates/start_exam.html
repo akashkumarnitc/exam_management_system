@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Start Exam - {{ exam.title }}{% endblock %}
+
+{% block content %}
+<h1>{{ exam.title }}</h1>
+<p>Duration: {{ exam.duration }} minutes</p>
+<p>Total Questions: {{ exam.total_questions }}</p>
+
+<!-- Start Exam Button -->
+<a href="{% url 'take_exam' exam.id %}" class="btn btn-primary">Start Exam</a>
+<a href="{% url 'student_dashboard' %}" class="btn btn-secondary">Cancel</a>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}View Exams{% endblock %}
+
+{% block content %}
+<h1>Exams</h1>
+<ul class="list-group">
+    {% for exam in exams %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            {{ exam.title }} - {{ exam.date }}
+            <div>
+                {% if user_role == 'teacher' %}
+                    <a href="{% url 'edit_exam' exam.id %}" class="btn btn-warning btn-sm">Edit</a>
+                    <a href="{% url 'delete_exam' exam.id %}" class="btn btn-danger btn-sm">Delete</a>
+                {% elif user_role == 'student' %}
+                    <a href="{% url 'take_exam' exam.id %}" class="btn btn-success btn-sm">Take Exam</a>
+                {% endif %}
+            </div>
+        </li>
+    {% endfor %}
+</ul>
+<a href="{% url 'home' %}" class="btn btn-secondary mt-3">Back to Home</a>
+{% endblock %}

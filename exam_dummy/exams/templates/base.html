@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Online Exam Management System{% endblock %}</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        html, body {
+            height: 100%;  /* Full height for the body */
+            margin: 0;     /* Remove default margin */
+        }
+        body {
+            display: flex;  /* Flexbox layout */
+            flex-direction: column;  /* Arrange children in a column */
+        }
+        .navbar {
+            margin-bottom: 20px;
+        }
+        .footer {
+            background-color: #f8f9fa;  /* Light background for footer */
+            text-align: center;          /* Center text */
+            margin-top: auto;            /* Push footer to the bottom */
+            padding: 10px 0;            /* Padding for footer */
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="{% url 'home' %}">Online Exam System</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto">  <!-- Added mr-auto to push logout to the right -->
+                {% if request.user.is_authenticated %}  <!-- Check if the user is logged in -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'view_exams' %}">View Exams</a>
+                    </li>
+                    {% if request.user.is_student %}  <!-- Check if the user is a student -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'view_results' %}">View Results</a>
+                        </li>
+                    {% endif %}
+                {% endif %}
+            </ul>
+
+            {% if request.user.is_authenticated %}  <!-- Check if the user is logged in -->
+                <div class="navbar-text mr-3">  <!-- For displaying the user's name -->
+                    Welcome, {{ request.user.username }}!
+                </div>
+                <form action="{% url 'logout' %}" method="post" class="d-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger logout-btn">Logout</button>
+                </form>
+            {% else %}
+                <div class="navbar-text mr-3">  <!-- Optional: Show a message for guests -->
+                    <a href="{% url 'login' %}" class="btn btn-info">Login</a>
+                </div>
+            {% endif %}
+        </div>
+    </nav>
+
+    <div class="container mt-4 flex-grow-1">  <!-- Added flex-grow-1 for main content -->
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <span class="text-muted">© 2024 Online Exam Management System</span>
+        </div>
+    </footer>
+</body>
+</html>

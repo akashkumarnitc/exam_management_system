@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Create Exam{% endblock %}
+
+{% block content %}
+<h1>Create Exam</h1>
+
+{% if messages %}
+    <div class="alert alert-info">
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+    </div>
+{% endif %}
+
+{% if form.errors %}
+    <div class="alert alert-danger">
+        <p>Please correct the following errors:</p>
+        <ul>
+            {% for field, errors in form.errors.items %}
+                <li>{{ field }}: {{ errors|join:", " }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}
+
+<form method="post">
+    {% csrf_token %}
+    <div class="form-group">
+        {{ form.as_p }}
+    </div>
+    <button type="submit" class="btn btn-primary">Create Exam</button>
+</form>
+
+<a href="{% url 'home' %}" class="btn btn-secondary">Back to Home</a>
+{% endblock %}

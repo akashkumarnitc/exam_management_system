@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}Add Question{% endblock %}
+
+{% block content %}
+<h1>Add Question to {{ exam.title }}</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" name="save" class="btn btn-primary">Save</button>
+    <button type="submit" name="add_another" class="btn btn-secondary">Save and Add Another</button>
+</form>
+<a href="{% url 'view_exams' %}" class="btn btn-light mt-3">Back to Exams</a>
+{% endblock %}
